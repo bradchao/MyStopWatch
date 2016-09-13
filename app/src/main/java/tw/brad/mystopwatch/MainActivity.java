@@ -6,8 +6,12 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private UIHandler handler;
     private CountTask countTask;
+    private ListView lapList;
+    private SimpleAdapter adapter;
+    private String[] from = {"title"};
+    private int[] to = {R.id.lapitem_title};
+    private LinkedList<HashMap<String,String>> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         clock = (TextView)findViewById(R.id.clock);
         btnLeft = (Button)findViewById(R.id.btnLeft);
         btnRight = (Button)findViewById(R.id.btnRight);
+        lapList = (ListView)findViewById(R.id.lapList);
+        initListView();
 
         timer = new Timer();
         handler = new UIHandler();
@@ -40,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         timer = null;
 
         super.finish();
+    }
+
+    private void initListView(){
+        data = new LinkedList<>();
+        adapter =
+                new SimpleAdapter(
+                        this,data, R.layout.layout_lapitem,from,to);
+        lapList.setAdapter(adapter);
     }
 
     // Reset / Lap
@@ -75,7 +94,11 @@ public class MainActivity extends AppCompatActivity {
         handler.sendEmptyMessage(0);
     }
     private void doLap(){
-
+        HashMap<String,String> lap =
+                new HashMap<>();
+        lap.put(from[0], "" + counter);
+        data.add(lap);
+        adapter.notifyDataSetChanged();
     }
     private void doReset(){
 
