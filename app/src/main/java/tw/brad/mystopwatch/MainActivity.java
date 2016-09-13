@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isRunning;
     private int counter;
     private Timer timer;
+    private UIHandler handler;
+    private CountTask countTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         btnRight = (Button)findViewById(R.id.btnRight);
 
         timer = new Timer();
+        handler = new UIHandler();
     }
 
     @Override
@@ -60,10 +63,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doStart(){
-
+        countTask = new CountTask();
+        timer.schedule(countTask, 0, 10);
     }
     private void doStop(){
-
+        if (countTask != null) {
+            countTask.cancel();
+            countTask = null;
+        }
+        counter = 0;
+        handler.sendEmptyMessage(0);
     }
     private void doLap(){
 
@@ -76,10 +85,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             counter++;
+            handler.sendEmptyMessage(0);
         }
     }
 
-    private class UITask extends Handler {
+    private class UIHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
