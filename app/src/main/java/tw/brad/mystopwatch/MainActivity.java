@@ -90,18 +90,19 @@ public class MainActivity extends AppCompatActivity {
             countTask.cancel();
             countTask = null;
         }
-        counter = 0;
-        handler.sendEmptyMessage(0);
     }
     private void doLap(){
         HashMap<String,String> lap =
                 new HashMap<>();
         lap.put(from[0], "" + counter);
-        data.add(lap);
+        data.add(0,lap);
         adapter.notifyDataSetChanged();
     }
     private void doReset(){
-
+        counter = 0;
+        handler.sendEmptyMessage(0);
+        data.clear();
+        adapter.notifyDataSetChanged();
     }
 
     private class CountTask extends TimerTask {
