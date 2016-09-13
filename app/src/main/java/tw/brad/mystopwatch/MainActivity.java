@@ -21,13 +21,35 @@ public class MainActivity extends AppCompatActivity {
 
     // Reset / Lap
     public void doLeft(View v){
-
+        if (isRunning){
+            doLap();
+        }else{
+            doReset();
+        }
     }
     // Start / Stop
     public void doRight(View v){
         isRunning = !isRunning;
         btnRight.setText(isRunning?"Stop":"Start");
         btnLeft.setText(isRunning?"Lap":"Reset");
+        if (isRunning){
+            doStart();
+        }else{
+            doStop();
+        }
+    }
+
+    private void doStart(){
+
+    }
+    private void doStop(){
+
+    }
+    private void doLap(){
+
+    }
+    private void doReset(){
+
     }
 
 }
