@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLeft, btnRight;
     private boolean isRunning;
     private int counter;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,16 @@ public class MainActivity extends AppCompatActivity {
         btnLeft = (Button)findViewById(R.id.btnLeft);
         btnRight = (Button)findViewById(R.id.btnRight);
 
+        timer = new Timer();
+    }
+
+    @Override
+    public void finish() {
+        timer.purge();
+        timer.cancel();
+        timer = null;
+
+        super.finish();
     }
 
     // Reset / Lap
